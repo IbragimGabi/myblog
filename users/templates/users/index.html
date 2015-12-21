@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US" xml:lang="en">
+   {% extends "base.html" %}
+   <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Главная</title>
+</head>
+<body>
+    {% block content %}
+{% load static %}
+    <script type="text/javascript" src="{% static 'users/js/jquery-1.11.3.min.js' %}"></script>
+{% load static %}
+    <script type="text/javascript" src="{% static 'users/modal/js/jquery.the-modal.js' %}"></script>
+{% load static %}
+<link rel="stylesheet" href="{% static 'users/modal/css/the-modal.css' %}" />
+
+     <div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span2">
+     <div class="friends">
+         <h4>Темы</h4>
+         {% for f in fr1 %}
+                    <a href="/user/{{ f.friend2.id }}"> {{ f.friend2.user.username }} </a><br>
+         {% endfor %}
+         {% for f in fr2 %}
+                    <a href="/user/{{ f.friend1.id }}"> {{ f.friend1.user.username }} </a><br>
+         {% endfor %}
+         <hr>
+     </div>
+     <div class="subscriptions">
+         <h4>Популярное за сутки</h4>
+         {% for s in subs %}
+            <a href="/blog/{{ s.blog.id }}"> {{ s.blog.name }} </a><br>
+         {% endfor %}
+         <hr>
+     </div>
+     <div class="banlist">
+         <h4>Популярное за неделю</h4>
+         <hr>
+     </div>
+
+ </div>
+        <div class="span10">
+       <div class="blogs">
+             {% for p in posts %}
+         <h4><a href="/blog/{{ p.blog.id}}/post/{{ p.id }}"> {{ p.name }} </a></h4>
+         Автор: <a href="/user/{{ p.user.id }}"> {{ p.user.user.username }} </a><br><br>
+         <p>{{ p.annotation }}</p>
+                    <hr>
+         {% endfor %}
+         </div>
+ </div>
+</div>
+</div>
+    <script type="text/javascript">
+		jQuery(function($){
+			$('body').on('click', '.trigger', function(e){
+				e.preventDefault();
+				$('#loginmodal').modal().open();
+			});
+			$('.modal .close').on('click', function(e){
+				e.preventDefault();
+				$.modal().close();
+			});
+		});
+	</script>
+
+    <div class="modal" id="loginmodal" style="display: none">
+        <a href="#" class="close">&times;</a>
+        <form class="form-horizontal" action="/login" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="InputLogin">Логин</label>
+                <input type="text" class="form-control" id="InputLogin" name="login" placeholder="Введите свой логин">
+            </div>
+            <div class="form-group">
+                <label for="InputPassword">Пароль</label>
+                <input type="password" class="form-control" id="InputPassword" name="password" placeholder="Пароль">
+            </div><br>
+            <button type="submit" class="btn btn-default">Войти</button>
+        </form>
+    </div>
+
+ <script type="text/javascript">
+		jQuery(function($){
+			$('body').on('click', '.trigger2', function(e){
+				e.preventDefault();
+				$('#createmodal').modal().open();
+			});
+			$('.modal .close').on('click', function(e){
+				e.preventDefault();
+				$.modal().close();
+			});
+		});
+	</script>
+
+     <script type="text/javascript">
+$(document).ready(function () {
+    $("#Pass1").keyup(function (event) {
+        if ($(this).val().length < 8) {
+            $(this).css("border", "2px solid red")
+        } else if (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/.test($(this).val())) {
+            $(this).css("border", "2px solid green")
+        } else {
+            $(this).css("border", "2px solid yellow")
+        }
+    });
+
+    $("#Pass2").keyup(function (event) {
+        if ($(this).val() == $("#Pass1").val()) {
+            $(this).css("border", "2px solid green");
+        }
+        else
+        {
+            $(this).css("border", "2px solid red");
+        }
+    });
+});
+  </script>
+
+ <div class="modal" id="createmodal" style="display: none">
+        <a href="#" class="close">&times;</a>
+        <form class="form-horizontal" action="/user/create/" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="Login">Введите логин</label>
+                <input type="text" class="form-control" id="Login" name="login" placeholder="Введите свой логин">
+            </div>
+            <div class="form-group">
+                <label for="Pass1">Введите пароль</label>
+                <input type="password" class="form-control" id="Pass1" name="password1" placeholder="Пароль">
+            </div>
+            <div class="form-group">
+                <label for="Pass2">Повторите пароль</label>
+                <input type="password" class="form-control" id="Pass2" name="password2" placeholder="Пароль">
+            </div><br>
+            <button type="submit" class="btn btn-default">Регистрация</button>
+        </form>
+    </div>
+    {% endblock content %}
+</body>
+</html>

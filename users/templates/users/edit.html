@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US" xml:lang="en">
+   {% extends "base.html" %}
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Редактирование профиля</title>
+
+
+</head>
+
+<body>
+    {% block content %}
+{% load static %}
+    <script type="text/javascript" src="{% static 'users/datepicker/js/jquery-1.11.1.min.js' %}"></script>
+ {% load static %}
+    <script type="text/javascript" src="{% static 'users/datepicker/js/moment-with-locales.min.js' %}"></script>
+    {% load static %}
+    <script type="text/javascript" src="{% static 'users/datepicker/js/bootstrap.min.js' %}"></script>
+    {% load static %}
+    <script type="text/javascript" src="{% static 'users/datepicker/js/bootstrap-datepicker.min.js' %}"></script>
+{% load static %}
+    <link rel="stylesheet" href="{% static 'users/datepicker/css/bootstrap-datepicker.min.css' %}" />
+  <script type="text/javascript">
+    $(function () {
+      $('#datetimepicker1').datepicker({
+      language: 'ru',
+      format:'yyyy-m-d',
+      });
+    });
+  </script>
+       <div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span2">
+     <div class="friends">
+         <h4>Мои друзья</h4>
+         {% for f in fr1 %}
+                    <a href="/user/{{ f.friend2.id }}"> {{ f.friend2.user.username }} </a><br>
+         {% endfor %}
+         {% for f in fr2 %}
+                    <a href="/user/{{ f.friend1.id }}"> {{ f.friend1.user.username }} </a><br>
+         {% endfor %}
+         <hr>
+     </div>
+     <div class="subscriptions">
+         <h4>Мои подписки</h4>
+         {% for s in subs %}
+            <a href="/blog/{{ s.blog.id }}"> {{ s.blog.name }} </a><br>
+         {% endfor %}
+         <hr>
+     </div>
+     <div class="banlist">
+         <h4>Черный список</h4>
+         {% for b in ban %}
+            <a href="/user/{{ b.banned.id }}"> {{ b.banned.name }} </a><br>
+         {% endfor %}
+         <hr>
+     </div>
+     <div class="community">
+         <h4>Мои сообщества</h4>
+         {% for c in comm %}
+            <a href="/community/{{ c.community.id }}"> {{ c.community.name }} </a><br>
+         {% endfor %}
+     </div>
+ </div>
+        <div class="span10">
+  <form action="/user/edit/" method="post" enctype="multipart/form-data">
+
+    {% csrf_token %}
+    {{ form.as_p }}
+    Date: <input type="text"  id="datetimepicker1" name="editdate"><br><br>
+    <input type="submit" value="Редактировать"/>
+</form>
+ </div>
+</div>
+</div>
+
+    {% endblock content %}
+</body>
+</html>

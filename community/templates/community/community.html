@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US" xml:lang="en">
+   {% extends "base.html" %}
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title></title>
+
+</head>
+
+<body>
+
+
+    {% block content %}
+
+    <div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span2">
+            <div class="friends">
+                <h4>Мои друзья</h4>
+                {% for f in fr1 %}
+                <a href="/user/{{ f.friend2.id }}"> {{ f.friend2.user.username }} </a><br>
+                {% endfor %}
+                {% for f in fr2 %}
+                <a href="/user/{{ f.friend1.id }}"> {{ f.friend1.user.username }} </a><br>
+                {% endfor %}
+                <hr>
+            </div>
+            <div class="subscriptions">
+                <h4>Мои подписки</h4>
+                {% for s in subs %}
+                <a href="/blog/{{ s.blog.id }}"> {{ s.blog.name }} </a><br>
+                {% endfor %}
+                <hr>
+            </div>
+     <div class="banlist">
+         <h4>Черный список</h4>
+         {% for b in ban %}
+            <a href="/user/{{ b.banned.id }}"> {{ b.banned.name }} </a><br>
+         {% endfor %}
+         <hr>
+     </div>
+     <div class="community">
+         <h4>Мои сообщества</h4>
+         {% for c in comm %}
+            <a href="/community/{{ c.community.id }}"> {{ c.community.name }} </a><br>
+         {% endfor %}
+     </div>
+ </div>
+        <div class="span10">
+  <div class="community">
+     <h4> {{ thcomm.name }} </h4>
+     Описание: {{ thcomm.info }}<br><br>
+     </div>
+     <hr>
+     <div class="posts">
+             {% for p in posts %}
+                    <h4><a href="/community/{{ thcomm.id }}/post/{{ p.id }}"> {{ p.name }} </a></h4>
+                    Описание: {{ p.annotation }}<br><br>
+                    <hr>
+         {% endfor %}
+         </div>
+ </div>
+ </div>
+</div>
+</div>
+    {% endblock content %}
+</body>
+</html>
