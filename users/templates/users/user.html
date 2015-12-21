@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US" xml:lang="en">
+   {% extends "base.html" %}
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>{{ users.0.user.name }}</title>
+</head>
+
+<body>
+    {% block content %}
+
+       <div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span2">
+     <div class="friends">
+         <h4>Мои друзья</h4>
+         {% for f in fr1 %}
+                    <a href="/user/{{ f.friend2.id }}"> {{ f.friend2.user.username }} </a><br>
+         {% endfor %}
+         {% for f in fr2 %}
+                    <a href="/user/{{ f.friend1.id }}"> {{ f.friend1.user.username }} </a><br>
+         {% endfor %}
+         <hr>
+     </div>
+     <div class="subscriptions">
+         <h4>Мои подписки</h4>
+         {% for s in subs %}
+            <a href="/blog/{{ s.blog.id }}"> {{ s.blog.name }} </a><br>
+         {% endfor %}
+         <hr>
+     </div>
+     <div class="banlist">
+         <h4>Черный список</h4>
+         {% for b in ban %}
+            <a href="/user/{{ b.banned.id }}"> {{ b.banned.name }} </a><br>
+         {% endfor %}
+         <hr>
+     </div>
+     <div class="community">
+         <h4>Мои сообщества</h4>
+         {% for c in comm %}
+            <a href="/community/{{ c.community.id }}"> {{ c.community.name }} </a><br>
+         {% endfor %}
+     </div>
+ </div>
+        <div class="span10">
+  <div class="info">
+          <img src="/media/{{ users.0.avatar }}"><br>
+         Меня зовут {{ users.0.user.first_name }} {{ users.0.user.last_name }},<br>
+         но я не буду против, если меня называть {{ users.0.user.username }}.<br>
+         Родиля я {{ users.0.date }} и название моего пола начинается на букву {{ users.0.gender }}.<br>
+         Еще немножко информации про меня: {{ users.0.about_me }}<br><br>
+     </div>
+             {% if user.is_authenticated %}
+            <div class="btn-group">
+                <button type="button" class="btn" onclick="location.href='/user/{{ users.0.id }}/add'">Добавить в друзья</button><br><br>
+                <button type="button" class="btn" onclick="location.href='/mail/{{ users.0.id }}'">Написать письмо</button>
+            </div>
+     {% endif %}
+     <hr>
+     <div class="blogs">
+
+             {% for b in blogs %}
+                    <h4><a href="/blog/{{ b.id }}"> {{ b.name }} </a></h4>
+                    Описание: {{ b.info }}<br><br>
+                    <hr>
+         {% endfor %}
+         </div>
+ </div>
+</div>
+</div>
+    {% endblock content %}
+</body>
+</html>

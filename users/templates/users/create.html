@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+</head>
+
+<body>
+{% load static %}
+    <script type="text/javascript" src="{% static 'users/js/jquery-1.11.3.min.js' %}"></script>
+
+  <script type="text/javascript">
+$(document).ready(function () {
+    $("#id_password").keyup(function (event) {
+        if ($(this).val().length < 8) {
+            $(this).css("border", "2px solid red")
+        } else if (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/.test($(this).val())) {
+            $(this).css("border", "2px solid green")
+        } else {
+            $(this).css("border", "2px solid yellow")
+        }
+    });
+
+    $("#id_password2").keyup(function (event) {
+        if ($(this).val() == $("#id_password").val()) {
+            $(this).css("border", "2px solid green");
+        }
+        else
+        {
+            $(this).css("border", "2px solid red");
+        }
+    });
+});
+  </script>
+<form action="" method="post">
+
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <input type="submit" value="login"/>
+</form>
+</body>
+</html>
